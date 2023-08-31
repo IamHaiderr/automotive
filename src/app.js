@@ -3,6 +3,9 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const authRoutes = require("./routes/authentication");
 const appointmentRoutes = require("./routes/appointments")
+const buyCars = require("./routes/buyingCars")
+const sellCars = require("./routes/sellingCars")
+const sellCarsInstallment = require("./routes/sellingCarsInstallment")
 
 const dotenv = require("dotenv");
 
@@ -33,3 +36,6 @@ app.use(bodyParser.json());
 /// ROUTES
 app.use("/auth", authRoutes);
 app.use("/appointment", appointmentRoutes)
+app.use("/buy", buyCars)
+app.use("/sell", sellCars)
+app.use("/sellInstallment", sellCarsInstallment)
