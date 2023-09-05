@@ -1,17 +1,32 @@
 const router = require("express").Router()
+const Car = require("../models/carSchema")
+const Vehicle = require("../models/myVehiclesSchema")
 
 // List cars available for direct purchase
 router.get('/buy-cars', async (req, res) => {
     try {
-        const carsForDirectPurchase = await Car.find({ status: 'available' });
+        const page = parseInt(req.query.page) || 1; // Current page, default to 1
+        const perPage = parseInt(req.query.perPage) || 10; // Number of items per page, default to 10
+
+        // Calculate the skip value based on the current page and items per page
+        const skip = (page - 1) * perPage;
+
+        // Retrieve cars with the 'available' status from the database with pagination
+        const carsForDirectPurchase = await Car.find({ status: 'available' })
+            .skip(skip) // Skip the appropriate number of items
+            .limit(perPage); // Limit the results to the specified number per page
+
+        // Respond with a 200 OK status code and the paginated list of available cars as JSON
         res.status(200).json(carsForDirectPurchase);
     } catch (error) {
+        // Handle errors by responding with a 500 Internal Server Error status code and an error message
         res.status(500).json({ error: 'An error occurred while retrieving cars for direct purchase.' });
     }
 });
 
-// Purchase a car directly
-router.post('/buy-cars/:id', async (req, res) => {
+
+// Purchase a car directly without installments
+router.post('/buy-car/:id', async (req, res) => {
     try {
         const car = await Car.findById(req.params.id);
         if (!car || car.status !== 'available') {

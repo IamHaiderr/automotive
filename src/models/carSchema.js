@@ -12,9 +12,11 @@ const carSchema = new mongoose.Schema({
         {
             months: { type: Number },
             downPayment: { type: Number },
-            monthlyPayment: { type: Number},
+            monthlyPayment: { type: Number },
         },
     ],
+}, {
+    timestamps: true
 });
 
 const CarSchema = mongoose.model('Car', carSchema);

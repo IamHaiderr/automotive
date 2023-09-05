@@ -38,4 +38,4 @@ app.use("/auth", authRoutes);
 app.use("/appointment", appointmentRoutes)
 app.use("/buy", buyCars)
 app.use("/sell", sellCars)
-app.use("/sellInstallment", sellCarsInstallment)
+app.use("/Installments", sellCarsInstallment)
