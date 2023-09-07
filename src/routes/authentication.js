@@ -4,7 +4,6 @@ const Auth = require("../models/authenticationSchema");
 const User = require("../models/usersSchema");
 const router = require("express").Router();
 
-
 const crypto = require("crypto");
 const secretKey = crypto.randomBytes(32).toString("hex");
 
@@ -47,13 +46,15 @@ router.post("/register", async (req, res) => {
 
   const response = await user.save();
 
-
-  const token = jwt.sign({ email: auth.email, id: auth._id }, process.env.SECRET_KEY)
+  const token = jwt.sign(
+    { email: user.email, id: user._id },
+    process.env.SECRET_KEY
+  );
 
   /////
   res.status(201).json({
     user: response,
-    token: token
+    token: token,
   });
 });
 
@@ -65,7 +66,10 @@ router.post("/login", async (req, res) => {
       return res.status(400).send("Cannot find user");
     }
     if (await bcrypt.compare(req.body.password, user.password)) {
-      const token = jwt.sign({ email: user.email, id: user._id }, process.env.SECRET_KEY);
+      const token = jwt.sign(
+        { email: user.email, id: user._id },
+        process.env.SECRET_KEY
+      );
       res.json({ token });
     } else {
       res.send("Authentication failed");
@@ -98,6 +102,5 @@ router.post("/admin/login", async (req, res) => {
     res.status(500).send();
   }
 });
-
 
 module.exports = router;
