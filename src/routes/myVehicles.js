@@ -1,16 +1,14 @@
 const router = require("express").Router();
+const Vehicle = require("../models/myVehiclesSchema");
 const authenticateJWT = require("../middlewares/authentication");
-const Payment = require("../models/paymentSchema");
 
 // API route to list payments for a specific user with car details
-router.get("/payment-details", authenticateJWT, async (req, res) => {
+router.get("/vehicle-details", authenticateJWT, async (req, res) => {
   try {
     const userId = req.user.id;
-    const payments = await Payment.find({ userId })
-      .populate("carId") // Populate the car details
-      .exec();
+    const vehicles = await Vehicle.find({ userId }).exec();
 
-    res.json(payments);
+    res.json(vehicles);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

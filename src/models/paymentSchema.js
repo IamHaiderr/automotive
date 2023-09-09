@@ -2,7 +2,10 @@ const mongoose = require("mongoose");
 
 const paymentHistorySchema = new mongoose.Schema({
   userId: mongoose.Schema.Types.ObjectId,
-  carId: mongoose.Schema.Types.ObjectId,
+  carId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Car", // Reference to the Car model
+  },
   paymentAmount: Number,
   paymentDate: Date,
   paymentType: String, // 'installment' or 'full'

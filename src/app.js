@@ -7,6 +7,7 @@ const buyCars = require("./routes/buyingCars");
 const sellCars = require("./routes/sellingCars");
 const sellCarsInstallment = require("./routes/sellingCarsInstallment");
 const payment = require("./routes/payment");
+const vehicle = require("./routes/myVehicles");
 
 const dotenv = require("dotenv");
 
@@ -41,3 +42,4 @@ app.use("/buy", buyCars);
 app.use("/sell", sellCars);
 app.use("/Installments", sellCarsInstallment);
 app.use("/payment", payment);
+app.use("/vehicle", vehicle);

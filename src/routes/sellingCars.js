@@ -5,7 +5,7 @@ const fs = require("fs");
 const upload = require("../helper/multer");
 const authenticateJWT = require("../middlewares/authentication");
 
-// List cars available for sale
+// get List cars available for sale
 router.get("/sell-cars", authenticateJWT, async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1; // Current page, default to 1
@@ -30,7 +30,7 @@ router.get("/sell-cars", authenticateJWT, async (req, res) => {
   }
 });
 
-// Create a new car listing for sale on installments
+// Create a new car listing for sale without installments
 router.post(
   "/sell-car",
   authenticateJWT,
@@ -83,7 +83,7 @@ router.post(
 // Update a car listing for sale on installments
 
 // Delete a car listing for sale on installments
-router.delete("/delete-car/:id", async (req, res) => {
+router.delete("/delete-car/:id", authenticateJWT, async (req, res) => {
   try {
     await Car.findByIdAndRemove(req.params.id);
     return res.status(200).send("Listed car deleted successfully!");

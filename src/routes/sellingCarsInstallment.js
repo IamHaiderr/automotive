@@ -23,12 +23,10 @@ router.get("/installment-cars", authenticateJWT, async (req, res) => {
 
     res.status(200).json(carsForInstallments);
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        error:
-          "An error occurred while retrieving cars for sale on installments.",
-      });
+    res.status(500).json({
+      error:
+        "An error occurred while retrieving cars for sale on installments.",
+    });
   }
 });
 
@@ -93,6 +91,7 @@ router.post(
 // Update installment plans for a car listing
 router.put(
   "/installment-cars/:carId/installment-plans/:planId",
+  authenticateJWT,
   async (req, res) => {
     try {
       const carId = req.params.carId;
@@ -128,27 +127,23 @@ router.put(
       res.status(200).json(updatedCar);
     } catch (error) {
       console.error("Error updating installment plan:", error);
-      res
-        .status(500)
-        .json({
-          error: "An error occurred while updating the installment plan.",
-        });
+      res.status(500).json({
+        error: "An error occurred while updating the installment plan.",
+      });
     }
   }
 );
 
 // Delete a car listing for sale on installments
-router.delete("/installment-cars/:id", async (req, res) => {
+router.delete("/installment-cars/:id", authenticateJWT, async (req, res) => {
   try {
     await Car.findByIdAndRemove(req.params.id);
     await res.status(200).send("Listed car deleted successfully!");
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        error:
-          "An error occurred while deleting the car listing for installments.",
-      });
+    res.status(500).json({
+      error:
+        "An error occurred while deleting the car listing for installments.",
+    });
   }
 });
 
