@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const Auth = require("../models/authenticationSchema");
 const User = require("../models/usersSchema");
 const router = require("express").Router();
+const authenticateJWT = require("../middlewares/authentication");
 
 const crypto = require("crypto");
 const secretKey = crypto.randomBytes(32).toString("hex");
@@ -102,5 +103,16 @@ router.post("/admin/login", async (req, res) => {
     res.status(500).send();
   }
 });
+
+// Logout API to revoke a token
+// router.post("/logout", authenticateJWT, (req, res) => {
+//   const token = req.header("Authorization");
+//   const tokenBlacklist = new Set(); // Maintain a token blacklist
+
+//   // Add the token to the blacklist
+//   tokenBlacklist.add(token);
+
+//   res.json({ message: "Token revoked" });
+// });
 
 module.exports = router;

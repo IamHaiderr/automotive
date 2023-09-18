@@ -11,6 +11,7 @@ const authenticateJWT = async (req, res, next) => {
     const decodedToken = jwt.verify(token, process.env.SECRET_KEY);
     // console.log(decodedToken);
     const user = await User.findById(decodedToken.id);
+    
 
     if (!user) return res.status(403).json({ error: "Forbidden" });
 
